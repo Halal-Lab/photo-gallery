@@ -58,3 +58,36 @@ async getImg(index){
       this.galleryDIv.appendChild(item)
     })
   }
+
+async getSearchedImages(e){
+    this.loadMore.setAttribute('data-img', 'search');
+    e.preventDefault();
+    this.galleryDIv.innerHTML='';
+    const searchValue = e.target.querySelector('input').value;
+    this.searchValueGlobal = searchValue;
+    const baseURL = `https://api.pexels.com/v1/search?query=${searchValue}&page=1&per_page=12`
+    const data = await this.fetchImages(baseURL);
+    this.GenerateHTML(data.photos);
+    e.target.reset();
+  }
+  async getMoreSearchedImages(index){
+    // console.log(searchValue)
+    const baseURL = `https://api.pexels.com/v1/search?query=${this.searchValueGlobal}&page=${index}&per_page=12`
+    const data = await this.fetchImages(baseURL);
+    console.log(data)
+    this.GenerateHTML(data.photos);
+  }
+  loadMoreImages(e){
+    let index = ++this.pageIndex;
+    const loadMoreData = e.target.getAttribute('data-img');
+    if(loadMoreData === 'curated'){
+      // load next page for curated]
+      this.getImg(index)
+    }else{
+      // load next page for search
+      this.getMoreSearchedImages(index);
+    }
+  }
+}
+
+const gallery = new PhotoGallery;
