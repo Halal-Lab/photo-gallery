@@ -26,3 +26,35 @@ class PhotoGallery{
       this.getImg(this.pageIndex);
     })
   }
+async getImg(index){
+    this.loadMore.setAttribute('data-img', 'curated');
+    const baseURL = `https://api.pexels.com/v1/curated?page=${index}&per_page=12`;
+    const data = await this.fetchImages(baseURL);
+    this.GenerateHTML(data.photos)
+    console.log(data)
+  }
+  async fetchImages(baseURL){
+    const response = await fetch(baseURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: this.API_KEY
+      }
+    });
+    const data = await response.json();
+    // console.log(data);
+    return data;
+  }
+  GenerateHTML(photos){
+    photos.forEach(photo=>{
+      const item= document.createElement('div');
+      item.classList.add('item');
+      item.innerHTML = `
+      <a href='${photo.src.original}' target="_blank">
+        <img src="${photo.src.medium}">
+        <h3>${photo.photographer}</h3>
+      </a>
+      `;
+      this.galleryDIv.appendChild(item)
+    })
+  }
