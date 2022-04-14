@@ -90,4 +90,3 @@ async getSearchedImages(e){
   }
 }
 
-const gallery = new PhotoGallery;
