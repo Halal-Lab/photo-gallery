@@ -26,7 +26,7 @@ class PhotoGallery{
       this.getImg(this.pageIndex);
     })
   }
-async getImg(index){
+  async getImg(index){
     this.loadMore.setAttribute('data-img', 'curated');
     const baseURL = `https://api.pexels.com/v1/curated?page=${index}&per_page=12`;
     const data = await this.fetchImages(baseURL);
@@ -58,8 +58,7 @@ async getImg(index){
       this.galleryDIv.appendChild(item)
     })
   }
-
-async getSearchedImages(e){
+  async getSearchedImages(e){
     this.loadMore.setAttribute('data-img', 'search');
     e.preventDefault();
     this.galleryDIv.innerHTML='';
@@ -89,5 +88,3 @@ async getSearchedImages(e){
     }
   }
 }
-
-const gallery = new PhotoGallery;
